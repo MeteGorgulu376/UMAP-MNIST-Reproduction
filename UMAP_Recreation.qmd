@@ -1,0 +1,69 @@
+---
+title: "UMAP_Recreation"
+author: - "Mete Gorgulu"
+---
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import umap
+from sklearn.datasets import fetch_openml
+import time
+
+# 1. Data Extraction & Preparation 
+
+print("Loading MNIST dataset...")
+# Adding parser='auto' prevents the silent network hang
+mnist = fetch_openml('mnist_784', version=1, as_frame=True, parser='auto')
+X_df = mnist.data
+y_series = mnist.target.astype(int)
+
+print(f"Features DataFrame shape: {X_df.shape}")
+print("\nFirst 5 rows of the dataset:")
+print(X_df.head())
+```
+
+```{python}
+# 2. Dimensionality Reduction
+
+reducer = umap.UMAP(
+    n_neighbors=15, 
+    min_dist=0.1, 
+    metric='euclidean', 
+    random_state=42 
+)
+
+print("\nRunning UMAP optimization on massive dataset...")
+start_time = time.time()
+
+embedding = reducer.fit_transform(X_df.values) 
+
+execution_time = time.time() - start_time
+print(f"UMAP Execution time: {execution_time:.2f} seconds")
+
+
+```
+
+```{python}
+embedding_df = pd.DataFrame(embedding, columns=['UMAP_1', 'UMAP_2'])
+embedding_df['label'] = y_series.values
+
+fig, ax = plt.subplots(figsize=(12, 8))
+scatter = ax.scatter(
+    embedding_df['UMAP_1'], 
+    embedding_df['UMAP_2'], 
+    c=embedding_df['label'], 
+    cmap='Spectral', 
+    s=0.1 
+)
+
+cbar = plt.colorbar(scatter, boundaries=np.arange(11)-0.5)
+cbar.set_ticks(np.arange(10))
+ax.set_title('UMAP Projection of the MNIST Dataset (n=70,000)', fontsize=16)
+ax.set_xlabel('UMAP Dimension 1')
+ax.set_ylabel('UMAP Dimension 2')
+
+
+plt.show()
+```

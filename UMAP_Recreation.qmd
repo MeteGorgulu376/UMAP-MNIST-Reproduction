@@ -1,6 +1,6 @@
 ---
 title: "UMAP_Recreation"
-author: - "Mete Gorgulu"
+author: "Mete Gorgulu"
 ---
 
 ```{python}

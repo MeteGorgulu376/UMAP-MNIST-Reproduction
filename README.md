@@ -29,3 +29,20 @@ The code is structured into three primary phases:
 1. **Data Setup:** Fetches the 70,000 MNIST images via OpenML.
 2. **Algorithm Execution:** Fits the UMAP reducer using hyperparameter baselines `n_neighbors=15`, `min_dist=0.1`, and `metric='euclidean'`.
 3. **Visualization:** Plots the resulting 2D topological clusters using `matplotlib`.
+
+
+## Environment & Dependencies
+The code is compiled within a Quarto environment. To ensure exact reproducibility, the following Python package versions were used:
+* `umap-learn` (v0.5.4)
+* `scikit-learn` (v1.3.1)
+* `pandas` (v2.1.1)
+* `numpy` (v1.26.0)
+* `matplotlib` (v3.8.0)
+*(Note: Replace these example versions with your actual versions by running `pip freeze` in your terminal).*
+
+## Installation and Execution
+To run this code locally and generate the final report, execute the following commands in your terminal:
+
+1. **Install required packages:**
+```bash
+pip install pandas numpy matplotlib umap-learn scikit-learn
